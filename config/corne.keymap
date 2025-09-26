@@ -66,6 +66,13 @@
                 <&kp RIGHT_BRACKET>,
                 <&kp RIGHT_BRACE>;
         };
+
+        td_tab_capsword: td_tab_capsword {
+            compatible = "zmk,behavior-tap-dance";
+            label = "TD_TAB_CAPSWORD";
+            #binding-cells = <0>;
+            bindings = <&kp TAB>, <&caps_word>;
+        };
     };
 
     keymap {
@@ -79,10 +86,25 @@
             //                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
 
             bindings = <
-&kp ESC    &kp Q  &kp W  &kp E      &kp R     &kp T          &kp Y        &kp U     &kp I      &kp O    &kp P      &kp BSPC
-&kp TAB    &kp A  &kp S  &kp D      &kp F     &kp G          &kp H        &kp J     &kp K      &kp L    &kp SEMI   &kp SQT
-&sk LSHFT  &kp Z  &kp X  &kp C      &kp V     &kp B          &kp N        &kp M     &kp COMMA  &kp DOT  &td_slash  &sk LSHFT
-                         &sk LCTRL  &sk LGUI  &lt 1 ENTER    &lt 2 SPACE  &sk LALT  &kp K_APP
+&kp ESC           &kp Q  &kp W  &kp E      &kp R     &kp T          &kp Y        &kp U     &kp I      &kp O       &kp P      &kp BSPC
+&td_tab_capsword  &kp A  &kp S  &kp D      &kp F     &kp G          &kp H        &kp J     &kp K      &kp L       &td_semi   &td_quot
+&sk LSHFT         &kp Z  &kp X  &kp C      &kp V     &kp B          &kp N        &kp M     &td_comma  &td_period  &td_slash  &sk LSHFT
+                                &sk LCTRL  &sk LGUI  &lt 2 ENTER    &lt 1 SPACE  &sk LALT  &kp K_APP
+            >;
+        };
+
+        num_layer {
+            // -----------------------------------------------------------------------------------------
+            // |  TAB |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  *  |  (  |  )  | BSPC |
+            // | CTRL |     |     |     |     |     |   |  -  |  =  |  [  |  ]  |  \  |  `   |
+            // | SHFT |     |     |     |     |     |   |  _  |  +  |  {  |  }  | "|" |  ~   |
+            //                    | GUI |     | SPC |   | ENT |     | ALT |
+
+            bindings = <
+&kp TILDE   &kp N1  &kp N2  &kp N3  &kp N4    &kp N5           &kp N6     &kp N7  &kp N8  &kp N9  &kp N0     &kp DEL
+&caps_word  &trans  &trans  &trans  &kp PIPE  &kp BACKSLASH    &kp PLUS   &kp N4  &kp N5  &kp N6  &kp EQUAL  &kp INS
+&trans      &mo 5   &trans  &trans  &trans    &kp UNDER        &kp MINUS  &kp N1  &kp N2  &kp N3  &trans     &trans
+                            &trans  &trans    &trans           &trans     &trans  &trans
             >;
         };
 
@@ -94,25 +116,10 @@
             //                    | GUI |     | SPC |   | ENT |     | ALT |
 
             bindings = <
-&none      &none   &none           &msc SCRL_UP    &none            &none     &kp HOME   &td_lpar        &kp UP    &td_rpar   &kp PAGE_UP    &trans
-&none      &none   &msc SCRL_LEFT  &msc SCRL_DOWN  &msc SCRL_RIGHT  &none     &kp END    &kp LEFT_ARROW  &kp DOWN  &kp RIGHT  &kp PAGE_DOWN  &kp UNDER
-&kp LSHFT  &trans  &trans          &trans          &trans           &trans    &kp EQUAL  &trans          &trans    &trans     &kp PIPE       &trans
-                                   &trans          &trans           &trans    &trans     &trans          &trans
-            >;
-        };
-
-        raise_layer {
-            // -----------------------------------------------------------------------------------------
-            // |  TAB |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  *  |  (  |  )  | BSPC |
-            // | CTRL |     |     |     |     |     |   |  -  |  =  |  [  |  ]  |  \  |  `   |
-            // | SHFT |     |     |     |     |     |   |  _  |  +  |  {  |  }  | "|" |  ~   |
-            //                    | GUI |     | SPC |   | ENT |     | ALT |
-
-            bindings = <
-&kp TILDE   &kp N1  &kp N2  &kp N3  &kp N4  &kp N5       &kp N6     &kp N7  &kp N8  &kp N9  &kp N0         &kp DEL
-&kp LCTRL   &trans  &trans  &trans  &trans  &kp EQUAL    &kp PLUS   &kp N4  &kp N5  &kp N6  &kp UNDER      &kp INS
-&caps_word  &trans  &trans  &trans  &trans  &trans       &kp MINUS  &kp N1  &kp N2  &kp N3  &kp BACKSLASH  &trans
-                            &trans  &trans  &trans       &trans     &trans  &trans
+&none       &none  &none           &msc SCRL_UP    &none            &none     &kp HOME  &td_lpar        &kp UP    &td_rpar   &kp PAGE_UP    &trans
+&caps_word  &none  &msc SCRL_LEFT  &msc SCRL_DOWN  &msc SCRL_RIGHT  &none     &kp END   &kp LEFT_ARROW  &kp DOWN  &kp RIGHT  &kp PAGE_DOWN  &trans
+&kp LSHFT   &sl 4  &trans          &trans          &trans           &trans    &trans    &trans          &trans    &trans     &trans         &trans
+                                   &trans          &trans           &trans    &trans    &trans          &trans
             >;
         };
 
@@ -124,13 +131,31 @@
                                           &trans        &trans        &trans          &trans       &trans  &trans
             >;
         };
+
+        func_layer {
+            bindings = <
+&none  &mt F11 F1  &mt F12 F2  &mt F13 F3  &mt F14 F4  &mt F15 F5    &mt F16 F6  &mt F17 F7  &mt F18 F8  &mt F19 F9  &mt F20 F10  &none
+&none  &none       &none       &none       &none       &none         &none       &mt F14 F4  &mt F15 F5  &mt F16 F6  &none        &none
+&none  &none       &none       &none       &none       &none         &none       &mt F11 F1  &mt F12 F2  &mt F13 F3  &none        &none
+                               &trans      &trans      &trans        &trans      &trans      &trans
+            >;
+        };
+
+        keypad_layer {
+            bindings = <
+&none      &kp KP_N1  &kp KP_N2  &kp KP_N3  &kp KP_N4     &kp KP_N5      &kp KP_N6     &kp KP_N7  &kp KP_N8  &kp KP_N9  &kp KP_N0     &kp BSPC
+&none      &none      &none      &none      &kp KP_LPAR   &kp KP_RPAR    &kp KP_PLUS   &kp KP_N4  &kp KP_N5  &kp KP_N6  &kp KP_EQUAL  &none
+&kp LSHFT  &none      &none      &none      &kp KP_COMMA  &kp KP_DOT     &kp KP_MINUS  &kp KP_N1  &kp KP_N2  &kp KP_N3  &kp KP_SLASH  &kp RSHFT
+                                 &trans     &trans        &trans         &trans        &trans     &trans
+            >;
+        };
     };
 
     conditional_layers {
         compatible = "zmk,conditional-layers";
 
         tri_layer {
-            if-layers = <1 2>;
+            if-layers = <2 1>;
             then-layer = <3>;
         };
     };
