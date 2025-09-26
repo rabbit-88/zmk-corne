@@ -171,7 +171,7 @@
         compatible = "zmk,conditional-layers";
 
         tri_layer {
-            if-layers = <4 2>;
+            if-layers = <2 3>;
             then-layer = <1>;
         };
     };
