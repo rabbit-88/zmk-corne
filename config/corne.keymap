@@ -103,8 +103,8 @@
             bindings = <
 &kp TILDE   &kp N1  &kp N2  &kp N3  &kp N4    &kp N5           &kp N6     &kp N7  &kp N8  &kp N9  &kp N0     &kp DEL
 &caps_word  &trans  &trans  &trans  &kp PIPE  &kp BACKSLASH    &kp PLUS   &kp N4  &kp N5  &kp N6  &kp EQUAL  &kp INS
-&trans      &mo 5   &trans  &trans  &trans    &kp UNDER        &kp MINUS  &kp N1  &kp N2  &kp N3  &trans     &trans
-                            &trans  &trans    &trans           &trans     &trans  &trans
+&trans      &mo 6   &trans  &trans  &trans    &kp UNDER        &kp MINUS  &kp N1  &kp N2  &kp N3  &trans     &trans
+                            &trans  &trans    &trans           &trans     &trans  &sl 4
             >;
         };
 
@@ -127,17 +127,26 @@
             bindings = <
 &bt BT_CLR    &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &bootloader  &trans  &trans  &trans  &trans  &sys_reset
 &trans        &trans        &trans        &trans        &trans        &trans          &trans       &trans  &trans  &trans  &trans  &trans
-&bl BL_CYCLE  &bl BL_INC    &none         &trans        &trans        &bl BL_ON       &bl BL_OFF   &trans  &trans  &trans  &trans  &soft_off
+&bl BL_CYCLE  &bl BL_INC    &bl BL_DEC    &trans        &trans        &bl BL_ON       &bl BL_OFF   &trans  &trans  &trans  &trans  &soft_off
                                           &trans        &trans        &trans          &trans       &trans  &trans
             >;
         };
 
         func_layer {
             bindings = <
-&none  &mt F11 F1  &mt F12 F2  &mt F13 F3  &mt F14 F4  &mt F15 F5    &mt F16 F6  &mt F17 F7  &mt F18 F8  &mt F19 F9  &mt F20 F10  &none
-&none  &none       &none       &none       &none       &none         &none       &mt F14 F4  &mt F15 F5  &mt F16 F6  &none        &none
-&none  &none       &none       &none       &none       &none         &none       &mt F11 F1  &mt F12 F2  &mt F13 F3  &none        &none
-                               &trans      &trans      &trans        &trans      &trans      &trans
+&none  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5    &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &none
+&none  &none   &none   &none   &none   &none     &none   &kp F4  &kp F5  &kp F6  &none    &none
+&none  &none   &none   &none   &none   &none     &none   &kp F1  &kp F2  &kp F3  &none    &none
+                       &trans  &trans  &trans    &trans  &trans  &sl 5
+            >;
+        };
+
+        func2_layer {
+            bindings = <
+&none  &kp F11  &kp F12  &kp F13  &kp F14  &kp F15    &kp F16  &kp F17  &kp F18  &kp F19  &kp F20  &none
+&none  &kp F21  &kp F22  &kp F23  &kp F24  &none      &kp F21  &kp F22  &kp F23  &kp F24  &none    &none
+&none  &none    &none    &none    &none    &none      &none    &none    &none    &none    &none    &none
+                         &trans   &trans   &trans     &trans   &trans   &trans
             >;
         };
 
@@ -147,6 +156,15 @@
 &none      &none      &none      &none      &kp KP_LPAR   &kp KP_RPAR    &kp KP_PLUS   &kp KP_N4  &kp KP_N5  &kp KP_N6  &kp KP_EQUAL  &none
 &kp LSHFT  &none      &none      &none      &kp KP_COMMA  &kp KP_DOT     &kp KP_MINUS  &kp KP_N1  &kp KP_N2  &kp KP_N3  &kp KP_SLASH  &kp RSHFT
                                  &trans     &trans        &trans         &trans        &trans     &trans
+            >;
+        };
+
+        layer_7 {
+            bindings = <
+&bt BT_CLR    &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &bootloader  &trans  &trans  &trans  &trans  &sys_reset
+&trans        &trans        &trans        &trans        &trans        &trans          &trans       &trans  &trans  &trans  &trans  &trans
+&bl BL_CYCLE  &bl BL_INC    &bl BL_DEC    &trans        &trans        &bl BL_ON       &bl BL_OFF   &trans  &trans  &trans  &trans  &soft_off
+                                          &trans        &trans        &trans          &trans       &trans  &trans
             >;
         };
     };
