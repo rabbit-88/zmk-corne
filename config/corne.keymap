@@ -172,7 +172,7 @@
 
         tri_layer {
             if-layers = <4 2>;
-            then-layer = <8>;
+            then-layer = <1>;
         };
     };
 };
