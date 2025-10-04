@@ -5,10 +5,26 @@
  */
 
 #include <behaviors.dtsi>
-#include <dt-bindings/zmk/backlight.h>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
+
+#define BT0    (BT_CLR_CMD 0)
+#define BT1    (BT_SEL_CMD 1)
+#define BT2    (BT_SEL_CMD 2)
+#define BT3    (BT_SEL_CMD 3)
+#define BT4    (BT_SEL_CMD 4)
+#define BTC    (BT_CLR_ALL)
+#define B_ON   (BL_ON)
+#define B_OFF  (BL_OFF)
+#define B_CYC  (BL_CYCLE)
+#define B_INC  (BL_INC)
+#define B_DEC  (BL_DEC)
+#define SCRLL  (SCRL_LEFT)
+#define SCRLR  (SCRL_RIGHT)
+#define SCRLU  (SCRL_UP)
+#define SCRLD  (SCRL_DOWN)
+
 
 / {
     behaviors {
@@ -19,9 +35,9 @@
             bindings = <&kp FSLH>, <&kp LS(FSLH)>;
         };
 
-        td_period: td_period {
+        td_dot: td_dot {
             compatible = "zmk,behavior-tap-dance";
-            label = "TD_PERIOD";
+            label = "TD_DOT";
             #binding-cells = <0>;
             bindings = <&kp PERIOD>, <&kp LS(PERIOD)>;
         };
@@ -67,16 +83,16 @@
                 <&kp RIGHT_BRACE>;
         };
 
-        td_tab_capsword: td_tab_capsword {
+        td_tab: td_tab {
             compatible = "zmk,behavior-tap-dance";
-            label = "TD_TAB_CAPSWORD";
+            label = "TD_TAB";
             #binding-cells = <0>;
             bindings = <&kp TAB>, <&caps_word>;
         };
 
-        td_esc_reset: td_esc_reset {
+        td_esc: td_esc {
             compatible = "zmk,behavior-tap-dance";
-            label = "TD_ESC_RESET";
+            label = "TD_ESC";
             #binding-cells = <0>;
             bindings = <&kp ESC>, <&sys_reset>;
         };
@@ -84,85 +100,85 @@
 
     keymap {
         compatible = "zmk,keymap";
-
         base_layer {
-            // -----------------------------------------------------------------------------------------
+            label = "QWERTY";
+            // --------------------------------------------------------------------------------
             // |  TAB |  Q  |  W  |  E  |  R  |  T  |   |  Y  |  U   |  I  |  O  |  P  | BSPC |
             // | CTRL |  A  |  S  |  D  |  F  |  G  |   |  H  |  J   |  K  |  L  |  ;  |  '   |
             // | SHFT |  Z  |  X  |  C  |  V  |  B  |   |  N  |  M   |  ,  |  .  |  /  | ESC  |
-            //                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
+            //                    | CTL | GUI |4-SPC|   |2-ENT| ALT  | APP |
 
             bindings = <
-&td_esc_reset  &kp Q  &kp W  &kp E      &kp R     &kp T          &kp Y        &kp U     &kp I      &kp O       &kp P      &kp BSPC
-&kp TAB        &kp A  &kp S  &kp D      &kp F     &kp G          &kp H        &kp J     &kp K      &kp L       &td_semi   &td_quot
-&sk LSHFT      &kp Z  &kp X  &kp C      &kp V     &kp B          &kp N        &kp M     &td_comma  &td_period  &td_slash  &sk LSHFT
-                             &sk LCTRL  &sk LGUI  &lt 4 ENTER    &lt 2 SPACE  &sk LALT  &kp K_APP
+//         |         |         |         |        ||         |         |         |         |         |         |         |
+&td_esc     &kp Q    &kp W     &kp E     &kp R     &kp T     &kp Y     &kp U     &kp I     &kp O     &kp P     &kp BSPC
+&td_tab     &kp A    &kp S     &kp D     &kp F     &kp G     &kp H     &kp J     &kp K     &kp L     &td_semi  &td_quot
+&sk LSHFT   &kp Z    &kp X     &kp C     &kp V     &kp B     &kp N     &kp M     &td_comma &td_dot   &td_slash &sk LSHFT
+                     &sk LCTRL &sk LGUI  &lt 3 RET &lt 2 SPC &sk LALT  &kp K_APP
             >;
         };
 
         tri_layer {
+            label = "3-SYMB";
             bindings = <
-&kp TILDE   &kp EXCL  &kp AT  &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET  &kp AMPS    &kp STAR      &td_lpar    &td_rpar    &trans
-&caps_word  &trans    &trans  &trans    &trans    &trans       &trans     &trans      &trans        &trans      &trans      &trans
-&trans      &trans    &trans  &trans    &trans    &trans       &bl BL_ON  &bl BL_OFF  &bl BL_CYCLE  &bl BL_INC  &bl BL_DEC  &trans
-                              &trans    &trans    &trans       &trans     &trans      &trans
+//         |         |         |         |        ||         |         |         |         |         |         |         |
+&kp TILDE  &kp EXCL  &kp AT    &kp HASH  &kp DLLR  &kp PRCNT &kp CARET &kp AMPS  &kp STAR  &td_lpar  &td_rpar  &trans
+&caps_word &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans
+&trans     &trans    &trans    &trans    &trans    &trans    &bl B_ON  &bl B_OFF &bl B_CYC &bl B_INC &bl B_DEC &trans
+                               &trans    &trans    &trans    &trans    &trans    &trans
             >;
         };
 
         num_layer {
-            // -----------------------------------------------------------------------------------------
-            // |  TAB |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  *  |  (  |  )  | BSPC |
-            // | CTRL |     |     |     |     |     |   |  -  |  =  |  [  |  ]  |  \  |  `   |
-            // | SHFT |     |     |     |     |     |   |  _  |  +  |  {  |  }  | "|" |  ~   |
-            //                    | GUI |     | SPC |   | ENT |     | ALT |
-
             bindings = <
-&kp GRAVE   &kp N1  &kp N2  &kp N3  &kp N4    &kp N5           &kp N6     &kp N7  &kp N8  &kp N9  &kp N0     &kp DEL
-&caps_word  &trans  &trans  &trans  &kp PIPE  &kp BACKSLASH    &kp PLUS   &kp N4  &kp N5  &kp N6  &kp EQUAL  &kp INS
-&trans      &mo 6   &trans  &trans  &trans    &kp UNDER        &kp MINUS  &kp N1  &kp N2  &kp N3  &trans     &trans
-                            &trans  &trans    &trans           &trans     &trans  &sl 4
+            label = "R-NUMB";
+//         |         |         |         |        ||         |         |         |         |         |         |         |
+&kp GRAVE  &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp N6    &kp N7    &kp N8    &kp N9    &kp N0    &kp DEL
+&caps_word &trans    &trans    &trans    &kp PIPE  &kp BSLH  &kp PLUS  &kp N4    &kp N5    &kp N6    &kp EQUAL &kp INS
+&trans     &mo 6     &trans    &trans    &trans    &kp UNDER &kp MINUS &kp N1    &kp N2    &kp N3    &trans    &trans
+                               &trans    &trans    &trans    &trans    &trans    &sl 4
             >;
         };
 
         move_layer {
-            // -----------------------------------------------------------------------------------------
-            // |  TAB |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  | BSPC |
-            // | BTCLR| BT1 | BT2 | BT3 | BT4 | BT5 |   | LFT | DWN |  UP | RGT |     |      |
-            // | SHFT |     |     |     |     |     |   |     |     |     |     |     |      |
-            //                    | GUI |     | SPC |   | ENT |     | ALT |
-
             bindings = <
-&none   &none   &none           &msc SCRL_UP    &none            &none     &kp HOME  &none           &kp UP    &none      &kp PAGE_UP    &trans
-&none   &none   &msc SCRL_LEFT  &msc SCRL_DOWN  &msc SCRL_RIGHT  &none     &kp END   &kp LEFT_ARROW  &kp DOWN  &kp RIGHT  &kp PAGE_DOWN  &trans
-&trans  &trans  &trans          &trans          &trans           &trans    &trans    &trans          &trans    &trans     &trans         &trans
-                                &trans          &trans           &trans    &trans    &trans          &trans
+            label = "R-MOVE";
+//         |         |         |         |        ||         |         |         |         |         |         |         |
+&none      &none     &none     &msc SCRU &none     &none     &kp HOME  &none     &kp UP    &none     &kp PG_UP &trans
+&none      &none     &msc SCRL &msc SCRD &msc SCRR &none     &kp END   &kp LEFT  &kp DOWN  &kp RIGHT &kp PG_DN &trans
+&trans     &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans
+                     &trans    &trans    &trans    &trans    &trans    &trans
             >;
         };
 
         func_layer {
             bindings = <
-&none       &kp F1        &kp F2        &kp F3        &kp F4        &kp F5          &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &none
-&none       &none         &none         &none         &none         &none           &none   &kp F4  &kp F5  &kp F6  &none    &none
-&bt BT_CLR  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &none   &kp F1  &kp F2  &kp F3  &none    &none
-                                        &trans        &trans        &trans          &trans  &trans  &sl 5
+            label = "F1-F10";
+//         |         |         |         |         |         |         |         |         |         |         |         |
+&none      &kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp F6    &kp F7    &kp F8    &kp F9    &kp F10   &none
+&none      &none     &none     &none     &none     &none     &none     &kp F4    &kp F5    &kp F6    &none     &none
+&bt BT_CLR &bt BT0   &bt BT1   &bt BT2   &bt BT3   &bt BT4   &none     &kp F1    &kp F2    &kp F3    &none     &none
+                               &trans    &trans    &trans    &trans    &trans    &sl 5
             >;
         };
 
         func2_layer {
             bindings = <
-&none  &kp F11  &kp F12  &kp F13  &kp F14  &kp F15    &kp F16  &kp F17  &kp F18  &kp F19  &kp F20  &none
-&none  &kp F21  &kp F22  &kp F23  &kp F24  &none      &kp F21  &kp F22  &kp F23  &kp F24  &none    &none
-&none  &none    &none    &none    &none    &none      &none    &none    &none    &none    &none    &none
-                         &trans   &trans   &trans     &trans   &trans   &trans
+            label = "F11-F24";
+//         |         |         |         |         |         |         |         |         |         |         |         |
+&none      &kp F11   &kp F12   &kp F13   &kp F14   &kp F15   &kp F16   &kp F17   &kp F18   &kp F19   &kp F20   &none
+&none      &kp F21   &kp F22   &kp F23   &kp F24   &none     &kp F21   &kp F22   &kp F23   &kp F24   &none     &none
+&none      &none     &none     &none     &none     &none     &none     &none     &none     &none     &none     &none
+                     &trans    &trans   &trans     &trans    &trans    &trans
             >;
         };
 
         keypad_layer {
             bindings = <
-&none      &kp KP_N1  &kp KP_N2  &kp KP_N3  &kp KP_N4     &kp KP_N5      &kp KP_N6     &kp KP_N7  &kp KP_N8  &kp KP_N9  &kp KP_N0     &kp BSPC
-&none      &none      &none      &none      &kp KP_LPAR   &kp KP_RPAR    &kp KP_PLUS   &kp KP_N4  &kp KP_N5  &kp KP_N6  &kp KP_EQUAL  &none
-&kp LSHFT  &none      &none      &none      &kp KP_COMMA  &kp KP_DOT     &kp KP_MINUS  &kp KP_N1  &kp KP_N2  &kp KP_N3  &kp KP_SLASH  &kp RSHFT
-                                 &trans     &trans        &trans         &trans        &trans     &trans
+            label = "KEYPD";
+&none      &kp KP_N1 &kp KP_N2 &kp KP_N3 &kp KP_N4    &kp KP_N5   &kp KP_N6     &kp KP_N7  &kp KP_N8  &kp KP_N9  &kp KP_N0    &kp BSPC
+&none      &none     &none     &none     &kp KP_LPAR  &kp KP_RPAR &kp KP_PLUS   &kp KP_N4  &kp KP_N5  &kp KP_N6  &kp KP_EQUAL &none
+&kp LSHFT  &none     &none     &none     &kp KP_COMMA &kp KP_DOT  &kp KP_MINUS  &kp KP_N1  &kp KP_N2  &kp KP_N3  &kp KP_SLASH &kp RSHFT
+                               &trans    &trans       &trans      &trans       &trans    &trans
             >;
         };
     };
@@ -176,3 +192,4 @@
         };
     };
 };
+ 
